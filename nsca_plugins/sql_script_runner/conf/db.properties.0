@@ -1,0 +1,5 @@
+className=oracle.jdbc.driver.OracleDriver
+url=********
+userName=evam
+password=******
+sqlFile=conf/total_scenarios.sql

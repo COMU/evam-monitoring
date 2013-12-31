@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ENGINE_COUNT=`ps aux | grep "EVAMNIOServerEE" | grep -v "grep EVAMNIOServerEE" | wc -l`
+
+if [ $ENGINE_COUNT = "0" ]; then
+  echo "FAIL: Evam Engine not running."
+  exit 2
+else
+  echo "OK: Evam Engine running."
+  exit 0
+fi

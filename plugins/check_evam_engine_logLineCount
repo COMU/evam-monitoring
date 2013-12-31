@@ -1,0 +1,110 @@
+#!/bin/bash
+
+RUN_DIR_PATH=$PWD
+. /home/nagios/evam_shared/.evam_nagios.conf
+
+USAGE="`basename $0` [-w|--warning]<qsize> [-c|--critical]<qsize>"
+THRESHOLD_USAGE="WARNING threshold must be greater than CRITICAL: `basename $0` $*"
+
+critical=""
+warning=""
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+# print usage
+if [[ $# -lt 4 ]]
+then
+        echo ""
+        echo "Wrong Syntax: `basename $0` $*"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+# read input
+while [[ $# -gt 0 ]]
+  do
+        case "$1" in
+               -w|--warning)
+               shift
+               warning=$1
+        ;;
+               -c|--critical)
+               shift
+               critical=$1
+        ;;
+        esac
+        shift
+  done
+# verify input
+if [[ $warning -eq $critical || $critical -gt $warning ]]
+then
+        echo ""
+        echo "$THRESHOLD_USAGE"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+if [[ -e $EVAM_NAGIOS_LOGSIZE_FILE ]]
+	then
+		OLD_LOG_TIME=`ls -l $EVAM_NAGIOS_LOGSIZE_FILE | cut -d" " -f8`
+		#OLD_LOG_TIME="23:56"
+                OLD_LOG_HOUR=`echo "$OLD_LOG_TIME" | cut -d":" -f1`
+                OLD_LOG_MINUTE=`echo "$OLD_LOG_TIME" | cut -d":" -f2`
+fi
+touch $EVAM_NAGIOS_LOGSIZE_FILE
+
+if [[ "$?" -eq 0 ]]
+        then
+                NAGIOS_LOG_LINE=`wc -l $EVAM_NAGIOS_LOGSIZE_FILE | cut -d" " -f1`
+                if [[ "$NAGIOS_LOG_LINE" -eq 0 ]]
+                        then
+                		wc -l $EVAM_ENGINE_PATH/log$ENGINE_ID/evam.log | cut -d" " -f1 >> $EVAM_NAGIOS_LOGSIZE_FILE
+                                echo "WARNING: older log size not found.|logLine=0;$warning;$critical;0;0"
+				exit 1
+                else
+				CONTROL_MINUTE=`expr 60 - $EVAM_NAGIOS_LOGSIZE_INTERVAL`
+				if [[ "$OLD_LOG_HOUR" -eq 23 ]] && [[ "$OLD_LOG_MINUTE" -gt "$CONTROL_MINUTE" ]]
+					then
+						CURRENT_MINUTE=`date '+%M'`
+						#CURRENT_MINUTE="1"
+						if [[ "$CURRENT_MINUTE" -lt $EVAM_NAGIOS_LOGSIZE_INTERVAL ]]
+							then
+							PASSED_PERCENTAGE=`expr $CURRENT_MINUTE "*" 100 "/" $EVAM_NAGIOS_LOGSIZE_INTERVAL`
+							critical=`expr $critical "*" $PASSED_PERCENTAGE "/" 100`
+							warning=`expr $warning "*" $PASSED_PERCENTAGE "/" 100`
+						fi
+						OLD_LINE_COUNT="0"
+					else
+						OLD_LINE_COUNT=`tail -1 $EVAM_NAGIOS_LOGSIZE_FILE | cut -d" " -f1`
+				fi
+				NEW_LINE_COUNT=`wc -l $EVAM_ENGINE_PATH/log$ENGINE_ID/evam.log | cut -d" " -f1`
+				NEW_LINE_RECORD="$NEW_LINE_COUNT `date`"
+				echo "$NEW_LINE_RECORD" >> $EVAM_NAGIOS_LOGSIZE_FILE
+                                LOG_LINE_COUNT=`expr $NEW_LINE_COUNT - $OLD_LINE_COUNT`
+
+				if [[ "$LOG_LINE_COUNT" -lt  $critical ]]
+					then
+						echo "CRITICAL: Total printed log line is $LOG_LINE_COUNT.|logLine=$LOG_LINE_COUNT;$warning;$critical;0;0"
+						exit 2
+				fi
+				if [[ "$LOG_LINE_COUNT" -le  $warning ]]
+					then
+						echo "WARNING: Total printed log line is $LOG_LINE_COUNT.|logLine=$LOG_LINE_COUNT;$warning;$critical;0;0"
+						exit 1
+				fi
+				if [[ "$LOG_LINE_COUNT" -ge  $warning ]]
+					then
+						echo "OK: Total printed log line is $LOG_LINE_COUNT.|logLine=$LOG_LINE_COUNT;$warning;$critical;0;0"
+						exit 0
+				fi
+								
+		fi
+else
+		echo "CRITICAL: cannot create temp file!|logLine=0;$warning;$critical;0;0"
+		exit 2
+fi
+
+

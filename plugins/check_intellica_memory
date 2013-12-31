@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Script to check real memory usage
+# L.Gill 02/05/06 - V.1.0
+# ------------------------------------------
+# ########  Script Modifications  ##########
+# ------------------------------------------
+# Who	 When	   What
+# ---    ----      ----
+# LGill	 17/05/06  "$USED_PERCENT" lt 1% fix - sed edits dc result beggining with "."
+# EMANAP 22/05/13  remove tmp file usage
+#
+USAGE="`basename $0` [-w|--warning]<USED_PERCENT> [-c|--critical]<USED_PERCENT> --color"
+THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
+critical=""
+warning=""
+COLORED_OUTPUT="false"
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+# print usage
+if [[ $# -lt 4 ]]
+then
+	echo ""
+	echo "Wrong Syntax: `basename $0` $*"
+	echo ""
+	echo "Usage: $USAGE"
+	echo ""
+	exit 0
+fi
+# read input
+while [[ $# -gt 0 ]]
+  do
+        case "$1" in
+               -w|--warning)
+               shift
+               warning=$1
+        ;;
+               -c|--critical)
+               shift
+               critical=$1
+        ;;
+               --color)
+               shift
+               COLORED_OUTPUT="true"
+        ;;
+        esac
+        shift
+  done
+# verify input
+if [[ $warning -eq $critical || $warning -gt $critical ]]
+then
+	echo ""
+	echo "$THRESHOLD_USAGE"
+	echo ""
+        echo "Usage: $USAGE"
+	echo ""
+        exit 0
+fi
+
+if [ "$COLORED_OUTPUT" = "true" ]
+then
+  COLOR_NONE='\e[0m'
+  COLOR_RED='\e[0;31m'
+  COLOR_YELLOW='\e[0;33m'
+fi
+
+# Total memory available
+TOTAL_MEMORY=`free -m | head -2 |tail -1 |awk '{print $2}'`
+# Total memory USED_MEMORY
+USED_MEMORY=`free -m | head -3 |tail -1 |awk '{print $3}'`
+# Calc TOTAL_MEMORY minus USED_MEMORY
+FREE_MEMORY=`free -m | head -3 |tail -1 |awk '{print $4}'`
+# normal values
+#echo "$TOTAL_MEMORY"MB TOTAL_MEMORY
+#echo "$USED_MEMORY"MB USED_MEMORY
+#echo "$FREE_MEMORY"MB FREE_MEMORY
+
+#FREE_PERCENT=`expr ${FREE_MEMORY}00 "/" $TOTAL_MEMORY`
+USED_PERCENT=`expr ${USED_MEMORY}00 "/" $TOTAL_MEMORY`
+if [[ "$USED_PERCENT" -ge  $critical ]]
+	then
+		echo -e "${COLOR_RED}CRITICAL: %$USED_PERCENT($USED_MEMORY MB) Memory used.|memory=$USED_PERCENT;$warning;$critical;0;100${COLOR_NONE}"
+		exit 2
+fi
+if [[ "$USED_PERCENT" -ge  $warning ]]
+        then
+                echo -e "${COLOR_YELLOW}WARNING: %$USED_PERCENT($USED_MEMORY MB) Memory used.|memory=$USED_PERCENT;$warning;$critical;0;100${COLOR_NONE}"
+                exit 1
+fi
+if [[ "$USED_PERCENT" -lt  $warning ]]
+        then
+                echo "OK: %$USED_PERCENT($USED_MEMORY MB) Memory used.|memory=$USED_PERCENT;$warning;$critical;0;100"
+                exit 0
+fi

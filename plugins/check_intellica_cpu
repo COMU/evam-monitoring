@@ -1,0 +1,96 @@
+#!/bin/bash
+
+#. /home/nagios/evam_shared/.evam_nagios.conf
+
+USAGE="`basename $0` [-w|--warning]<qsize> [-c|--critical]<qsize> [--color]"
+THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
+critical=""
+warning=""
+COLORED_OUTPUT="false"
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+# print usage
+if [[ $# -lt 4 ]]
+then
+        echo ""
+        echo "Wrong Syntax: `basename $0` $*"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+# read input
+while [[ $# -gt 0 ]]
+  do
+        case "$1" in
+               -w|--warning)
+               shift
+               warning=$1
+        ;;
+               -c|--critical)
+               shift
+               critical=$1
+        ;;
+               --color)
+               shift
+               COLORED_OUTPUT="true"
+        ;;
+        esac
+        shift
+  done
+# verify input
+if [[ $warning -eq $critical || $critical -lt $warning ]]
+then
+        echo ""
+        echo "$THRESHOLD_USAGE"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+
+if [ "$COLORED_OUTPUT" = "true" ]
+then
+  COLOR_NONE='\e[0m'
+  COLOR_RED='\e[0;31m'
+  COLOR_LIGHT_RED='\e[0;33m'
+fi
+
+#/proc/stat contains this fiels
+# usermode, usermode(nice), systemmode, idle
+# it contains alot more, read man page of proc for details
+
+STAT_OUTPUT=`cat /proc/stat | grep "cpu "| sed 's/\s\s*/ /g'| cut -d" " -f2-`
+
+TOTAL_CPU_TIME=0
+for time in $STAT_OUTPUT;
+do
+  TOTAL_CPU_TIME=`expr $TOTAL_CPU_TIME + $time`;
+done
+
+#get idle usage(idle is 4. row)
+IDLE_TIME=`echo "$STAT_OUTPUT" | cut -d" " -f4`
+
+#cpu util is in *100 form. if %15,01 is used, it will contain 1501.
+CPU_UTILISATION=`expr ${IDLE_TIME}0000 "/" $TOTAL_CPU_TIME | xargs expr 10000 - | xargs printf "%04d" `
+#echo -e "total: $TOTAL_CPU_TIME \n idle: $IDLE_TIME \n util: $CPU_UTILISATION"
+#this is the real cpu usage:
+CPU_USAGE_PRINT=`echo "$CPU_UTILISATION"| sed 's/[0-9][0-9]/&,/'`
+
+if [ $CPU_UTILISATION -gt `expr $critical "*" 100` ]
+then
+  echo -e "${COLOR_RED}CRITICAL: CPU usage beyond critical threashold with %${CPU_USAGE_PRINT}.|cpuUsage=$CPU_USAGE_PRINT;$warning;$critical;0;0${COLOR_NONE}"
+  exit 2
+fi
+if [ $CPU_UTILISATION -ge `expr $warning "*" 100` ]
+then
+  echo -e "${COLOR_LIGHT_RED}WARNING: CPU usage beyond warning threashold with %${CPU_USAGE_PRINT}.|cpuUsage=$CPU_USAGE_PRINT;$warning;$critical;0;0${COLOR_NONE}"
+  exit 1
+fi
+if [ $CPU_UTILISATION -lt `expr $warning "*" 100` ]
+then
+  echo "OK: CPU usage is normal with %${CPU_USAGE_PRINT}.|cpuUsage=$CPU_USAGE_PRINT;$warning;$critical;0;0"
+  exit 0
+fi

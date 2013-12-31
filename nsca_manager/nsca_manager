@@ -1,0 +1,77 @@
+#!/bin/bash
+
+printD(){
+        if [ "$DEBUG" == "true" ]
+        then
+		echo -e "`date '+%F %T'`\t\"$1\"" >> $INTELLICA_NSCA_MANAGER_LOG_FILE
+        fi
+}
+
+#process the configuration file
+
+. ./nsca_manager.cfg
+
+if [[ ! -d "`dirname $INTELLICA_NSCA_MANAGER_LOG_FILE`" ]]
+then
+  echo "Given log file directory does not exist"
+  exit 1
+fi
+
+#check if there is a file with last run data
+
+if [[ ! -f $INTELLICA_NSCA_MANAGER_FILE ]]
+  then
+    printD "file does not exist, creating"
+    touch $INTELLICA_NSCA_MANAGER_FILE
+fi
+  #file exists
+  #check if every rule has a last execute time
+  while read rule_line;
+  do
+    if [[ $rule_line == \#* ]]
+    then
+      printD "comment line"
+    else
+      SERVICE_INTERVAL=`echo "$rule_line" |cut -d"	" -f1`
+      SERVICE_DESCRIPTION=`echo "$rule_line" |cut -d"	" -f2`
+      SERVICE_COMMAND=`echo "$rule_line" |cut -d"	" -f3-`
+      LAST_RUN_MINUTE=0
+      printD "checking $SERVICE_DESCRIPTION"
+      if [[ `grep "$SERVICE_DESCRIPTION" $INTELLICA_NSCA_MANAGER_FILE | wc -l` == "0" ]]
+      then
+        printD "not found, creating"
+        echo -e "$SERVICE_DESCRIPTION \t0" >> $INTELLICA_NSCA_MANAGER_FILE
+      else
+        LAST_RUN_MINUTE=`grep "$SERVICE_DESCRIPTION" $INTELLICA_NSCA_MANAGER_FILE | tail -1 | cut -d"	" -f2`
+      fi
+      #check if the last run of the file is older than given value
+      #this command returns seconds till 1.1.1970
+      SECONDS=`date '+%s'`
+      MINUTES=`expr $SECONDS "/" 60`
+      MINUTES_PASSED=`expr $MINUTES - $LAST_RUN_MINUTE`
+      printD "minutes from last run: $MINUTES_PASSED"
+      if [[ $SERVICE_INTERVAL -le $MINUTES_PASSED ]]
+      then
+        #run the command
+        COMMAND_RETURN=`$SERVICE_COMMAND`
+        COMMAND_RETURN_CODE="$?"
+        printD "$COMMAND_RETURN"
+        #send the result to nagios
+        #format:
+        #from_hostname \t check_name \t result \t result string.
+	NSCA_LINE=`echo -e "$NSCA_HOSTNAME\t$SERVICE_DESCRIPTION\t$COMMAND_RETURN_CODE\t$COMMAND_RETURN"`
+        printD "$NSCA_LINE"
+        # and send the response
+	# sample:
+        #/usr/local/nsca/bin/send_nsca -c nsca.cfg -H 10.220.52.35 < /home/evam/sil-scriptwork/nsca_test/test
+        SEND_RETURN=`echo -e "$NSCA_LINE" | $SEND_NSCA -c $NSCA_CONF -H $NAGIOS_IP `
+        printD "$SEND_RETURN"
+        #log the process.
+        echo -e "`date '+%F %T'`\t\"$NSCA_LINE\" send." >> $INTELLICA_NSCA_MANAGER_LOG_FILE
+        echo -e "`date '+%F %T'`\tResponse: \"$SEND_RETURN\"" >> $INTELLICA_NSCA_MANAGER_LOG_FILE
+        #update run_time
+        echo -e "$SERVICE_DESCRIPTION \t$MINUTES" >> $INTELLICA_NSCA_MANAGER_FILE
+      fi
+    fi
+  done < "$INTELLICA_NSCA_MANAGER_RULES"
+

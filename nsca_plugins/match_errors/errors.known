@@ -1,0 +1,37 @@
+unexpected error while replacing param: &cosid cause [java.lang.NullPointerException]
+unexpected error while replacing param: &lang cause [java.lang.NullPointerException]
+unexpected error while replacing param: &status cause [java.lang.NullPointerException]
+unexpected error while replacing param: &checkTenure cause [java.lang.NullPointerException]
+Could not save change data
+Could not save new data
+Delete database operation error:
+Unexpected error occured while dropping scenario record tables
+unexpected error while executing event
+Unexpected error while executing [null]
+java.lang.NumberFormatException: For input string: "null"
+unexpected error while replacing param: &checkLastMonthRevenue cause [java.lang.NullPointerException]
+unexpected error while replacing param: &checkLastThreeMonthsRevenue cause [java.lang.NullPointerException]
+unexpected error while replacing param: &lastMonthSMSCount cause [java.lang.NullPointerException]
+unexpected error while replacing param: &topThreeMonthAmount cause [java.lang.NullPointerException]
+unexpected error while replacing param: &isInControlGroup cause [java.sql.SQLException: The query has timed out.]
+Could not connect to DB!
+DB problem while trying to write int_logs
+Unable to retrieve connection from pool.
+Enquire Link Failed..Transmitter [10.220.30.106 VAEVAM001]
+Error Occured In Binding. Transmitter[10.220.30.106 VAEVAM001]java.net.ConnectException: Connection refused
+Error Occured In Binding. Transmitter[10.220.30.106 VAEVAM001]java.net.SocketException: Connection reset
+Enquire Link Failed..Transmitter [10.220.30.106 VAEVAM002]
+Error Occured In Binding. Transmitter[10.220.30.106 VAEVAM002]java.net.ConnectException: Connection refused
+Error Occured In Binding. Transmitter[10.220.30.106 VAEVAM002]java.net.SocketException: Connection reset
+Error occured while sending sms
+Error occured while sending smsjava.io.EOFException: EOS reached. No data available
+Error occured while sending smsjava.net.SocketException: Broken pipe
+Error occured while sending smsjava.net.SocketException: Connection reset
+Error occured while sending smsjava.net.SocketTimeoutException: Read timed out
+Error : Send enquire link java.io.EOFException: EOS reached. No data available
+Error : Send enquire link java.net.SocketException: Broken pipe
+Error : Send enquire link java.net.SocketException: Connection reset
+Received a socket timeout exception
+Smsc den hata alindi.Hata kod:1077
+Transmitter [host:10.220.30.106|port:8000] is connected.
+Transmitter [host:10.220.30.106|port:8000] is not connected, trying.

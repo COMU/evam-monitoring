@@ -1,0 +1,79 @@
+#!/bin/bash
+
+USAGE="`basename $0` [-w|--warning]<USED_PERCENT> [-c|--critical]<USED_PERCENT> [-m|--mount]<MOUNT_POINT>--color"
+THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
+MOUNT_POINT="/"
+critical=""
+warning=""
+COLORED_OUTPUT="false"
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+# print usage
+if [[ $# -lt 4 ]]
+then
+	echo ""
+	echo "Wrong Syntax: `basename $0` $*"
+	echo ""
+	echo "Usage: $USAGE"
+	echo ""
+	exit 0
+fi
+# read input
+while [[ $# -gt 0 ]]
+  do
+        case "$1" in
+               -w|--warning)
+               shift
+               warning=$1
+        ;;
+               -c|--critical)
+               shift
+               critical=$1
+        ;;
+               -m|--mount)
+               shift
+               MOUNT_POINT=$1
+        ;;
+               --color)
+               shift
+               COLORED_OUTPUT="true"
+        ;;
+        esac
+        shift
+  done
+# verify input
+if [[ $warning -eq $critical || $warning -gt $critical ]]
+then
+	echo ""
+	echo "$THRESHOLD_USAGE"
+	echo ""
+        echo "Usage: $USAGE"
+	echo ""
+        exit 0
+fi
+
+if [ "$COLORED_OUTPUT" = "true" ]
+then
+  COLOR_NONE='\e[0m'
+  COLOR_RED='\e[0;31m'
+  COLOR_YELLOW='\e[0;33m'
+fi
+USED_PERCENT=`df | grep " ${MOUNT_POINT}$" | sed 's/\s\s*/ /g' | cut -d" " -f5 | sed 's/%//g'`
+USED_DISK=`df -h | grep " ${MOUNT_POINT}$" | sed 's/\s\s*/ /g' | cut -d" " -f3`
+if [[ "$USED_PERCENT" -ge  $critical ]]
+	then
+		echo -e "${COLOR_RED}CRITICAL: %$USED_PERCENT($USED_DISK) Disk space used.|diskSpace=$USED_PERCENT;$warning;$critical;0;100${COLOR_NONE}"
+		exit 2
+fi
+if [[ "$USED_PERCENT" -ge  $warning ]]
+        then
+                echo -e "${COLOR_YELLOW}WARNING: %$USED_PERCENT($USED_DISK) Disk space used.|diskSpace=$USED_PERCENT;$warning;$critical;0;100${COLOR_NONE}"
+                exit 1
+fi
+if [[ "$USED_PERCENT" -lt  $warning ]]
+        then
+                echo "OK: %$USED_PERCENT($USED_DISK) Disk space used.|diskSpace=$USED_PERCENT;$warning;$critical;0;100"
+                exit 0
+fi

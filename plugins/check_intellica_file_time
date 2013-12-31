@@ -1,0 +1,140 @@
+#!/bin/bash
+
+#. /home/nagios/.evam_nagios.conf
+
+USAGE="`basename $0` [-d|--directory]<directory> [-w|--warning]<qsize> [-c|--critical]<qsize> [-p|--prefix]<filenamePrefix> [--color]"
+THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
+DIRECTORY_USAGE="Given directory path must be valid, and contain atleast 1 file."
+critical=""
+warning=""
+COLORED_OUTPUT="false"
+FILE_DIRECTORY=""
+FILE_PREFIX=""
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+# print usage
+if [[ $# -lt 8 ]]
+then
+        echo ""
+        echo "Wrong Syntax: `basename $0` $*"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+# read input
+while [[ $# -gt 0 ]]
+  do
+        case "$1" in
+               -w|--warning)
+               shift
+               warning=$1
+        ;;
+               -c|--critical)
+               shift
+               critical=$1
+        ;;
+               -d|--directory)
+               shift
+               FILE_DIRECTORY=$1
+        ;;
+               --color)
+               shift
+               COLORED_OUTPUT="true"
+        ;;
+               -p|--prefix)
+               shift
+               FILE_PREFIX=$1
+        ;;
+        esac
+        shift
+  done
+# verify input
+if [[ $warning -eq $critical || $critical -lt $warning ]]
+then
+        echo ""
+        echo "$THRESHOLD_USAGE"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+
+if ! [[ -d $FILE_DIRECTORY ]] #&& `ls -l $FILE_DIRECTORY | grep -v "^total " | grep -v "^l" | wc -l` -gt 0 ]]
+then
+        echo ""
+        echo "$DIRECTORY_USAGE. $FILE_DIRECTORY "
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+
+############################################################
+# these are the settings of file name.
+############################################################
+#set the parts
+#ex:EVAM_CDR_20130511035221_13113941.csv
+#since EVAM_CDR_ is prefix, the name will become 20130511035221_13113941.csv
+#year:  1-4 
+#month:  5-6
+#day:    7-8
+#hour:    9-10
+#minute: 11-12
+YEAR_PART="1-4"
+MONTH_PART="5-6"
+DAY_PART="7-8"
+HOUR_PART="9-10"
+MINUTE_PART="11-12"
+
+###############################################################
+#get last modified file name:
+FILE_NAME=`ls -lt $FILE_DIRECTORY | head -2 | tail -1 | sed 's/\s\s*/ /g' |cut -d" " -f"9"`
+PREFIX_LENGHT=`expr ${#FILE_PREFIX} + 1 `
+NAME_TO_WORK=`echo $FILE_NAME | cut -b ${PREFIX_LENGHT}-`
+#NAME_TO_WORK=$1
+
+#parse time from file name
+FILE_YEAR=`echo $NAME_TO_WORK|cut -b $YEAR_PART`
+FILE_MONTH=`echo $NAME_TO_WORK|cut -b $MONTH_PART`
+FILE_DAY=`echo $NAME_TO_WORK|cut -b $DAY_PART`
+FILE_HOUR=`echo $NAME_TO_WORK|cut -b $HOUR_PART`
+FILE_MINUTE=`echo $NAME_TO_WORK|cut -b $MINUTE_PART`
+
+#echo $FILE_YEAR
+#echo $FILE_MONTH
+#echo $FILE_DAY
+#echo $FILE_HOUR
+#echo $FILE_MINUTE
+
+ 
+#echo "$FILE_HOUR:$FILE_MINUTE $FILE_MONTH/$FILE_DAY/$FILE_YEAR"
+FILE_TIME_AS_SECONDS=`date -d "$FILE_HOUR:$FILE_MINUTE $FILE_MONTH/$FILE_DAY/$FILE_YEAR" +%s`
+CURRENT_TIME_AS_SECONDS=`date +%s`
+
+if [ "$COLORED_OUTPUT" = "true" ]
+then
+  COLOR_NONE='\e[0m'
+  COLOR_RED='\e[0;31m'
+  COLOR_LIGHT_RED='\e[0;33m'
+fi
+
+PASSED_TIME=`expr $CURRENT_TIME_AS_SECONDS - $FILE_TIME_AS_SECONDS`
+PASSED_MINUTES=`expr $PASSED_TIME "/" 60`
+if [ $PASSED_TIME -gt `expr $critical "*" 60` ]
+then
+  echo -e "${COLOR_RED}CRITICAL: Last file in $FILE_DIRECTORY is older($PASSED_MINUTES) than treshold.|FileAge=$PASSED_MINUTES;$warning;$critical;0;0${COLOR_NONE}"
+  exit 2
+fi
+if [ $PASSED_TIME -ge `expr $warning "*" 60` ]
+then
+  echo -e "${COLOR_LIGHT_RED}WARNING: Last file in $FILE_DIRECTORY is older($PASSED_MINUTES) than treshold.|FileAge=$PASSED_MINUTES;$warning;$critical;0;0${COLOR_NONE}"
+  exit 1
+fi
+if [ $PASSED_TIME -lt `expr $warning "*" 60` ]
+then
+  echo "OK: Last file in $FILE_DIRECTORY is newer($PASSED_MINUTES) than treshold.|FileAge=$PASSED_MINUTES;$warning;$critical;0;0"
+  exit 0
+fi
