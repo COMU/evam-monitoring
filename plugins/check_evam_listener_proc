@@ -2,7 +2,7 @@
 
 ENGINE_ID="0"
 RUN_DIR_PATH=$PWD
-. /home/nagios/evam_shared/.evam_nagios.conf
+LOCATE=$(cat plugins.conf)
 
 USAGE="`basename $0` [-c|--critical]<qsize>"
 

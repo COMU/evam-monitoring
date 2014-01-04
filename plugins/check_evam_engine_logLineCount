@@ -1,7 +1,8 @@
 #!/bin/bash
 
 RUN_DIR_PATH=$PWD
-. /home/nagios/evam_shared/.evam_nagios.conf
+LOCATE=$(cat plugins.conf)
+
 
 USAGE="`basename $0` [-w|--warning]<qsize> [-c|--critical]<qsize>"
 THRESHOLD_USAGE="WARNING threshold must be greater than CRITICAL: `basename $0` $*"
