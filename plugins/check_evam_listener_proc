@@ -2,7 +2,8 @@
 
 ENGINE_ID="0"
 RUN_DIR_PATH=$PWD
-LOCATE=$(cat plugins.conf)
+source ./plugins.conf
+$LOCATE
 
 USAGE="`basename $0` [-c|--critical]<qsize>"
 
