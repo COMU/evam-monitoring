@@ -10,8 +10,6 @@
 #############################################################
 
 #. /home/nagios/evam_shared/.evam_nagios.conf
-source ../../plugins.conf
-
 
 USAGE="`basename $0` [-f|--file]<fileToMatch> [-m|--match]<matchFile> [-w|--warning]<qsize> [-c|--critical]<qsize> [-o|--order]<reorderTimeOut> [--color] [-u|--unmatched]"
 THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
@@ -19,6 +17,7 @@ MATCH_FILE=""
 CHECK_UNMATCHED="false"
 RECREATE_ORDERED_ERROR_FILE=""
 RECREATE_TIMEOUT=0
+LOG_ERRORS="/home/evam/scriptsEvam/log-errors.sh"
 ORDERED_ERROR_FILE=""
 critical=""
 warning=""
@@ -95,7 +94,7 @@ fi
 if [[ "$ORDERED_ERROR_FILE" == "" ]]
 then
    TODAY_AS_FILENAME=`date '+%Y-%m-%d'`
-   ORDERED_ERROR_FILE=`echo "$ORDERED_ERRORS.$TODAY_AS_FILENAME"`
+   ORDERED_ERROR_FILE=`echo "/home/evam/evamengine/errors/errors.ordered.$TODAY_AS_FILENAME"`
 fi
 
 if [ "$RECREATE_ORDERED_ERROR_FILE" = "true" ]

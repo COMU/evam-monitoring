@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RUN_DIR_PATH=$PWD
-source ./plugins.conf
+source ../plugins.conf
 $LOCATE
 
 USAGE="`basename $0` [-w|--warning]<qsize> [-c|--critical]<qsize>"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RUN_DIR_PATH=$PWD
-source ../plugins.conf
+source ./plugins.conf
 $LOCATE
 
 
@@ -52,23 +52,25 @@ fi
 
 
 #There are totally [8] workers and queue size is [0]
-CURRENT_DATE=`date '+%d/%b/%Y %H'`
-RECOVERED_WORKER_TEMP=`cd $EVAM_CONSOLE_PATH && $EVAM_CONSOLE_PATH/evam threadStatus $ENGINE_ID $CURRENT_DATE | wc -l`
-RECOVERED_WORKER=`expr $RECOVERED_WORKER_TEMP - 2`
-
-
-if [[ "$RECOVERED_WORKER" -gt  $critical ]]
+QSIZE=`cd $EVAM_CONSOLE_PATH && $EVAM_CONSOLE_PATH/evam queueStatus $ENGINE_ID | tail -1 | cut -d[ -f3 | cut -d] -f1`
+if [[ "$QSIZE" = "" || -z "$QSIZE" ]]
         then
-                echo "CRITICAL: Recovered worker count is $RECOVERED_WORKER"
-                exit 2
-fi
-if [[ "$RECOVERED_WORKER" -ge  $warning ]]
-        then
-                echo "WARNING: Recovered worker count is $RECOVERED_WORKER"
+                echo "WARNING: No queue found."
                 exit 1
 fi
-if [[ "$RECOVERED_WORKER" -lt  $warning ]]
+
+if [[ "$QSIZE" -gt  $critical ]]
         then
-                echo "OK: Recovered worker count is $RECOVERED_WORKER"
+                echo "CRITICAL: Biggest Qsize is $QSIZE|qsize=$QSIZE;$warning;$critical;0;0"
+                exit 2
+fi
+if [[ "$QSIZE" -ge  $warning ]]
+        then
+                echo "WARNING: Biggest Qsize is $QSIZE|qsize=$QSIZE;$warning;$critical;0;0"
+                exit 1
+fi
+if [[ "$QSIZE" -lt  $warning ]]
+        then
+                echo "OK: Biggest Qsize is $QSIZE|qsize=$QSIZE;$warning;$critical;0;0"
                 exit 0
 fi
