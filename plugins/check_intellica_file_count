@@ -1,0 +1,99 @@
+#!/bin/bash
+
+#. /home/nagios/.evam_nagios.conf
+
+USAGE="`basename $0` [-d|--directory]<directory> [-w|--warning]<fileCount> [-c|--critical]<fileCount> [--color]"
+THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
+DIRECTORY_USAGE="Given directory path must be valid, and contain atleast 1 file."
+critical=""
+warning=""
+COLORED_OUTPUT="false"
+FILE_DIRECTORY=""
+FILE_PREFIX=""
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+# print usage
+if [[ $# -lt 6 ]]
+then
+        echo ""
+        echo "Wrong Syntax: `basename $0` $*"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+# read input
+while [[ $# -gt 0 ]]
+  do
+        case "$1" in
+               -w|--warning)
+               shift
+               warning=$1
+        ;;
+               -c|--critical)
+               shift
+               critical=$1
+        ;;
+               -d|--directory)
+               shift
+               FILE_DIRECTORY=$1
+        ;;
+               --color)
+               shift
+               COLORED_OUTPUT="true"
+        ;;
+        esac
+        shift
+  done
+# verify input
+if [[ $warning -eq $critical || $critical -lt $warning ]]
+then
+        echo ""
+        echo "$THRESHOLD_USAGE"
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+
+if ! [[ -d $FILE_DIRECTORY ]] #&& `ls -l $FILE_DIRECTORY | grep -v "^total " | grep -v "^l" | wc -l` -gt 0 ]]
+then
+        echo ""
+        echo "$DIRECTORY_USAGE. $FILE_DIRECTORY "
+        echo ""
+        echo "Usage: $USAGE"
+        echo ""
+        exit 0
+fi
+
+
+if [ "$COLORED_OUTPUT" = "true" ]
+then
+  COLOR_NONE='\e[0m'
+  COLOR_RED='\e[0;31m'
+  COLOR_LIGHT_RED='\e[0;33m'
+fi
+
+############################################################
+# file count
+############################################################
+
+FCOUNT=`ls $FILE_DIRECTORY| wc -l`
+
+if [ $FCOUNT -ge $critical ]
+then
+  echo -e "${COLOR_RED}CRITICAL: Total file count is $FCOUNT in $FILE_DIRECTORY |FileAge=$FCOUNT;$warning;$critical;0;0${COLOR_NONE}"
+  exit 2
+fi
+if [ $FCOUNT -ge $warning ]
+then
+  echo -e "${COLOR_LIGHT_RED}WARNING: Total file count is $FCOUNT in $FILE_DIRECTORY |FileAge=$FCOUNT;$warning;$critical;0;0${COLOR_NONE}"
+  exit 1
+fi
+if [ $FCOUNT -lt $warning ]
+then
+  echo "OK: Total file count is $FCOUNT in $FILE_DIRECTORY |FileAge=$FCOUNT;$warning;$critical;0;0"
+  exit 0
+fi
