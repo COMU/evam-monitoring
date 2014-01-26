@@ -9,7 +9,7 @@ printD(){
 
 #process the configuration file
 
-. ./nsca_manager.cfg
+source ../evam.conf
 
 if [[ ! -d "`dirname $INTELLICA_NSCA_MANAGER_LOG_FILE`" ]]
 then

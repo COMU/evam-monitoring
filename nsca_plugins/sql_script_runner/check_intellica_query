@@ -6,7 +6,7 @@
 #
 ###################################################################################################
 RUN_DIR_PATH=$PWD
-source ../../plugins.conf
+source ../../evam.conf
 
 USAGE="`basename $0` [-q|--query]<queryID> [-w|--warning]<returnValue> [-wb|--warningBottom]<returnValue> [-c|--critical]<returnValue> [-cb|--criticalBottom]<returnValue>" 
 THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
