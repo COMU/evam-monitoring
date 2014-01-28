@@ -10,8 +10,8 @@ Source0:        nsca_manager-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  bash
-Requires:       bash
+BuildRequires:  nagios
+Requires:       nagios
 
 %description
 nsca_manager
