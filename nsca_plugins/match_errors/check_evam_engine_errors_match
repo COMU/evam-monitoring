@@ -10,7 +10,7 @@
 #############################################################
 
 #. /home/nagios/evam_shared/.evam_nagios.conf
-source ../../evam.conf
+source /etc/evam.conf
 
 
 USAGE="`basename $0` [-f|--file]<fileToMatch> [-m|--match]<matchFile> [-w|--warning]<qsize> [-c|--critical]<qsize> [-o|--order]<reorderTimeOut> [--color] [-u|--unmatched]"
