@@ -10,8 +10,8 @@ Source0:        nsca_plugins-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  nagios
-Requires:       nagios
+BuildRequires:  none
+Requires:       jre
 
 %description
 EVAM icin kullanilan nsca eklentiler
