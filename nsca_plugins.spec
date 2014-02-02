@@ -19,9 +19,7 @@ EVAM icin kullanilan nsca eklentiler
 %prep
 %setup -q
 
-
 %build
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -36,10 +34,8 @@ install nsca_plugins-1.0/nsca_plugins/sql_script_runner/check_intellica_query $R
 install nsca_plugins-1.0/nsca_plugins/sql_script_runner/sqlScriptRunner.jar $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/nsca_plugins/nsca_plugins/sql_script_runner/sqlScriptRunner.jar
 install nsca_plugins-1.0/nsca_plugins/sql_script_runner/conf/log4j.properties $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/nsca_plugins/nsca_plugins/sql_script_runner/conf/log4j.properties
 
-
 %clean
 rm -rf $RPM_BUILD_ROOT
-
 
 %files
 %dir /usr/libexec/nagios/plugins/nsca_plugins
