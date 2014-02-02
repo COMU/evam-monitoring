@@ -19,9 +19,7 @@ izleme araci
 %prep
 %setup -q
 
-
 %build
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -42,11 +40,8 @@ install evam-1.0/evam-plugins/check_intellica_file_time $RPM_BUILD_ROOT/usr/libe
 install evam-1.0/evam-plugins/check_intellica_memory $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_memory
 install evam-1.0/evam.conf $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam.conf
 
-
-
 %clean
 rm -rf $RPM_BUILD_ROOT
-
 
 %files
 %dir /usr/libexec/nagios/plugins/evam
@@ -65,8 +60,5 @@ rm -rf $RPM_BUILD_ROOT
 /usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_file_time
 /usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_memory
 
-
-
 %post
 chmod 755 -R /usr/libexec/nagios/plugins/evam
-
