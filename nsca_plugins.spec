@@ -1,7 +1,7 @@
 Name:           nsca_plugins
 Version:        1.0
 Release:        1%{?dist}
-Summary:        nsca_plugins
+Summary:        EVAM nsca plugins
 
 Group:          Utilities
 License:        GPL
@@ -14,7 +14,7 @@ BuildRequires:  nagios
 Requires:       nagios
 
 %description
-nsca_plugins
+EVAM icin kullanilan nsca eklentiler
 
 %prep
 %setup -q
