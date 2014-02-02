@@ -1,7 +1,7 @@
 Name:           nsca_manager
 Version:        1.0
 Release:        1%{?dist}
-Summary:        nsca_manager
+Summary:        EVAM nsca management utility
 
 Group:          Utilities
 License:        GPL
@@ -10,11 +10,11 @@ Source0:        nsca_manager-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  nagios
-Requires:       nagios
+BuildRequires:  none
+Requires:       evam-plugins, evam-nsca-plugins
 
 %description
-nsca_manager
+EVAM nsca manager nagios eklentilerinin cron aracılıgıyla otomatik olarak çalıstırılıp sonuclarının raporlanması icin kullanılan bir araçtır
 
 %prep
 %setup -q
