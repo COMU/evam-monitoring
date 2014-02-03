@@ -3,7 +3,6 @@
 ENGINE_ID="0"
 RUN_DIR_PATH=$PWD
 source /etc/evam.conf
-$LOCATE
 
 USAGE="`basename $0` [-c|--critical]<qsize>"
 

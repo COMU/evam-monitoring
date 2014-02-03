@@ -2,8 +2,6 @@
 
 RUN_DIR_PATH=$PWD
 source /etc/evam.conf
-$LOCATE
-
 
 USAGE="`basename $0` [-w|--warning]<qsize> [-c|--critical]<qsize>"
 THRESHOLD_USAGE="WARNING threshold must be greater than CRITICAL: `basename $0` $*"
