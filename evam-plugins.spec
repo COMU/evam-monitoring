@@ -1,11 +1,11 @@
 Name:           evam
 Version:        1.0
 Release:        1%{?dist}
-Summary:        izleme araci
+Summary:        EVAM evam plugins utility
 
 Group:          Utilities
 License:        GPL
-URL:            www.evam.com
+URL:            http://www.evam.com
 Source0:        evam-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -14,7 +14,7 @@ BuildRequires:  nagios
 Requires:       nagios
 
 %description
-izleme araci
+EVAM evam plugins nagios eklentilerinin cron aracılıgıyla otomatik olarak çalıstırılıp sonuclarının raporlanması icin kullanılan bir araçtır
 
 %prep
 %setup -q
