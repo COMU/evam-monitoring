@@ -32,6 +32,6 @@ install nsca_manager-1.0/nsca_manager/nsca_manager $RPM_BUILD_ROOT/usr/libexec/n
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%dir /usr/libexec/nagios/plugins/nsca_manager
-%defattr(-,root,root,-)
+#%dir /usr/libexec/nagios/plugins/nsca_manager
+%defattr(755,root,root,-)
 /usr/libexec/nagios/plugins/nsca_manager/nsca_manager/nsca_manager

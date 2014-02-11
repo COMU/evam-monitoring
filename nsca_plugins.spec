@@ -38,7 +38,7 @@ install nsca_plugins-1.0/nsca_plugins/sql_script_runner/conf/log4j.properties $R
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%dir /usr/libexec/nagios/plugins/nsca_plugins
+#%dir /usr/libexec/nagios/plugins/nsca_plugins
 %defattr(644,root,root,-)
 /usr/libexec/nagios/plugins/nsca_plugins/nsca_plugins/match_errors/check_evam_engine_errors_match
 /usr/libexec/nagios/plugins/nsca_plugins/nsca_plugins/sql_script_runner/check_intellica_query
