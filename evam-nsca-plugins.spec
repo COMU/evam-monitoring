@@ -9,8 +9,8 @@ Source0:        evam-nsca-plugins-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  none
-Requires:       jre
+BuildRequires:  filesystem
+Requires:       java-1.7.0-openjdk
 
 %description
 EVAM icin kullanilan nsca eklentiler
