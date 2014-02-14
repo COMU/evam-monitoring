@@ -35,6 +35,6 @@ install evam-nsca-manager-1.0/cron/nsca_manager $RPM_BUILD_ROOT/etc/cron.d
 rm -rf $RPM_BUILD_ROOT
 
 %files
-#%dir /usr/libexec/nagios/plugins/nsca_manager
 %defattr(755,root,root,-)
-/usr/libexec/nagios/plugins/nsca_manager/nsca_manager/nsca_manager
+/usr/libexec/nagios/plugins/evam-nsca-manager/nsca_manager/nsca_manager
+/etc/cron.d/nsca_manager
