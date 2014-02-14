@@ -3,7 +3,6 @@ Version:        1.0
 Release:        1%{?dist}
 Summary:        EVAM nsca management utility
 
-Group:          Utilities
 License:        GPL
 URL:            www.evam.com
 Source0:        evam-nsca-manager-1.0.tar.gz
