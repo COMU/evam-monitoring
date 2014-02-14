@@ -1,12 +1,11 @@
-Name:           evam
+Name:           evam-plugins
 Version:        1.0
 Release:        1%{?dist}
 Summary:        EVAM evam plugins utility
 
-Group:          Utilities
 License:        GPL
 URL:            http://www.evam.com
-Source0:        evam-1.0.tar.gz
+Source0:        evam-plugins-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
