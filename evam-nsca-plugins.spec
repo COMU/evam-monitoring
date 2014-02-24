@@ -5,7 +5,7 @@ Summary:        EVAM nsca plugins
 
 License:        GPL
 URL:            www.evam.com
-Source0:        evam-nsca-plugins-1.0.tar.gz
+Source0:        http://members.comu.edu.tr/nyucel/evam/evam-nsca-plugins-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
