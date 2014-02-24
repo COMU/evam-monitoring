@@ -26,19 +26,19 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam
 mkdir $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins
 tar xvfz  %{SOURCE0} && cp -R evam-plugins $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam
-install evam-1.0/evam-plugins/check_evam_engine_errorCount $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_errorCount
-install evam-1.0/evam-plugins/check_evam_engine_logLineCount $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_logLineCount
-install evam-1.0/evam-plugins/check_evam_engine_proc  $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_proc
-install evam-1.0/evam-plugins/check_evam_engine_qsize $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_qsize
-install evam-1.0/evam-plugins/check_evam_engine_threadStatus $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_threadStatus
-install evam-1.0/evam-plugins/check_evam_engine_warningCount $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_warningCount
-install evam-1.0/evam-plugins/check_evam_listener_proc $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_listener_proc
-install evam-1.0/evam-plugins/check_intellica_cpu $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_cpu
-install evam-1.0/evam-plugins/check_intellica_disk $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_disk
-install evam-1.0/evam-plugins/check_intellica_file_count $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_file_count
-install evam-1.0/evam-plugins/check_intellica_file_time $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_file_time
-install evam-1.0/evam-plugins/check_intellica_memory $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_memory
-install evam-1.0/evam.conf $RPM_BUILD_ROOT/etc/evam.conf
+install evam-plugins-%{version}/evam-plugins/check_evam_engine_errorCount $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_errorCount
+install evam-plugins-%{version}/evam-plugins/check_evam_engine_logLineCount $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_logLineCount
+install evam-plugins-%{version}/evam-plugins/check_evam_engine_proc  $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_proc
+install evam-plugins-%{version}/evam-plugins/check_evam_engine_qsize $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_qsize
+install evam-plugins-%{version}/evam-plugins/check_evam_engine_threadStatus $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_threadStatus
+install evam-plugins-%{version}/evam-plugins/check_evam_engine_warningCount $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_warningCount
+install evam-plugins-%{version}/evam-plugins/check_evam_listener_proc $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_listener_proc
+install evam-plugins-%{version}/evam-plugins/check_intellica_cpu $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_cpu
+install evam-plugins-%{version}/evam-plugins/check_intellica_disk $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_disk
+install evam-plugins-%{version}/evam-plugins/check_intellica_file_count $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_file_count
+install evam-plugins-%{version}/evam-plugins/check_intellica_file_time $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_file_time
+install evam-plugins-%{version}/evam-plugins/check_intellica_memory $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_memory
+install evam-plugins-%{version}/evam.conf $RPM_BUILD_ROOT/etc/evam.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT

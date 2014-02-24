@@ -28,8 +28,8 @@ mkdir $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam-nsca-manager/nsca_manager
 install -d $RPM_BUILD_ROOT/etc
 mkdir $RPM_BUILD_ROOT/etc/cron.d
 tar xvfz  %{SOURCE0} && cp -R evam-nsca-manager-1.0/nsca_manager $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam-nsca-manager
-install evam-nsca-manager-1.0/nsca_manager/nsca_manager $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam-nsca-manager/nsca_manager/nsca_manager
-install evam-nsca-manager-1.0/cron/nsca_manager $RPM_BUILD_ROOT/etc/cron.d
+install evam-nsca-manager-%{version}/nsca_manager/nsca_manager $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam-nsca-manager/nsca_manager/nsca_manager
+install evam-nsca-manager-%{version}/cron/nsca_manager $RPM_BUILD_ROOT/etc/cron.d
 
 %clean
 rm -rf $RPM_BUILD_ROOT
