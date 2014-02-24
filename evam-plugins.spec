@@ -2,6 +2,7 @@ Name:           evam-plugins
 Version:        1.0
 Release:        1%{?dist}
 Summary:        EVAM evam plugins utility
+Group:          Applications/System
 
 License:        GPL
 URL:            http://www.evam.com

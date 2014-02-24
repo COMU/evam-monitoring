@@ -2,6 +2,7 @@ Name:           evam-nsca-manager
 Version:        1.0
 Release:        1%{?dist}
 Summary:        EVAM nsca management utility
+Group:          Applications/System
 
 License:        GPL
 URL:            www.evam.com

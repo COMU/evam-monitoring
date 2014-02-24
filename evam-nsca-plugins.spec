@@ -2,6 +2,7 @@ Name:           evam-nsca-plugins
 Version:        1.0
 Release:        1%{?dist}
 Summary:        EVAM nsca plugins
+Group:          Applications/System
 
 License:        GPL
 URL:            www.evam.com
