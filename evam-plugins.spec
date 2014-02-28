@@ -38,8 +38,8 @@ install evam-plugins-%{version}/evam-plugins/check_intellica_disk $RPM_BUILD_ROO
 install evam-plugins-%{version}/evam-plugins/check_intellica_file_count $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_file_count
 install evam-plugins-%{version}/evam-plugins/check_intellica_file_time $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_file_time
 install evam-plugins-%{version}/evam-plugins/check_intellica_memory $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_memory
-mkdir $RPM_BUILD_ROOT/etc
-install evam-plugins-%{version}/evam.conf $RPM_BUILD_ROOT/etc/evam.conf
+install -d $RPM_BUILD_ROOT/etc/evam/nagios-plugins/
+install evam-plugins-%{version}/evam.conf $RPM_BUILD_ROOT/etc/evam/nagios-plugins/evam.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -47,7 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 #%dir /usr/libexec/nagios/plugins/evam
 %defattr(644,root,root,-)
-/etc/evam.conf
+/etc/evam/nagios-plugins/evam.conf
 /usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_errorCount
 /usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_logLineCount
 /usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_proc
