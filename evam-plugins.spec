@@ -40,6 +40,8 @@ install evam-plugins-%{version}/evam-plugins/check_intellica_file_time $RPM_BUIL
 install evam-plugins-%{version}/evam-plugins/check_intellica_memory $RPM_BUILD_ROOT/usr/libexec/nagios/plugins/evam/evam-plugins/check_intellica_memory
 install -d $RPM_BUILD_ROOT/etc/evam/nagios-plugins/
 install evam-plugins-%{version}/evam.conf $RPM_BUILD_ROOT/etc/evam/nagios-plugins/evam.conf
+install evam-plugins-%{version}/nrpe.cfg $RPM_BUILD_ROOT/etc/evam/nagios-plugins/nrpe.cfg
+install evam-plugins-%{version}/nsca_plugins.cfg $RPM_BUILD_ROOT/etc/evam/nagios-plugins/nsca_plugins.cfg
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -47,6 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 #%dir /usr/libexec/nagios/plugins/evam
 %defattr(644,root,root,-)
+/etc/evam/nagios-plugins/nsca_plugins.cfg
+/etc/evam/nagios-plugins/nrpe.cfg
 /etc/evam/nagios-plugins/evam.conf
 /usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_errorCount
 /usr/libexec/nagios/plugins/evam/evam-plugins/check_evam_engine_logLineCount
