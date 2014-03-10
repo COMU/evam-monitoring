@@ -4,15 +4,32 @@ ENGINE_ID="0"
 RUN_DIR_PATH=$PWD
 source /etc/evam.conf
 
-USAGE="`basename $0` [-c|--critical]<qsize>"
+USAGE="`basename $0` [-c|--critical]<qsize> [-h|--help]<help>"
 
 critical=""
 STATE_OK=0
 STATE_WARNING=1
 STATE_CRITICAL=2
 STATE_UNKNOWN=3
+
+
+PROGNAME=`basename $0`
+
+print_help(){
+        echo "$PROGNAME is a Nagios Plugin to check working listener process"
+        echo "See below for available options."
+        echo "Options:"
+        echo "  -c/--critical)"
+        echo "          Defines critical threshold of listener process"
+
+}
+
+
+
+
+
 # print usage
-if [[ $# -lt 2 ]]
+if [[ $# -lt 2 && $1 -ne "-h" ]]
 then
         echo ""
         echo "Wrong Syntax: `basename $0` $*"
@@ -25,6 +42,10 @@ fi
 while [[ $# -gt 0 ]]
   do
         case "$1" in
+	       -h|--help)
+	       print_help
+	       exit 3
+	;;
                -c|--critical)
                shift
                critical=$1

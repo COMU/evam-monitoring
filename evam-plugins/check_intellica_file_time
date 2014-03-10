@@ -2,7 +2,7 @@
 
 #. /home/nagios/.evam_nagios.conf
 
-USAGE="`basename $0` [-d|--directory]<directory> [-w|--warning]<qsize> [-c|--critical]<qsize> [-p|--prefix]<filenamePrefix> [--color]"
+USAGE="`basename $0` [-h|--help]<help> [-d|--directory]<directory> [-w|--warning]<qsize> [-c|--critical]<qsize> [-p|--prefix]<filenamePrefix> [--color]"
 THRESHOLD_USAGE="WARNING threshold must be smaller than CRITICAL: `basename $0` $*"
 DIRECTORY_USAGE="Given directory path must be valid, and contain atleast 1 file."
 critical=""
@@ -14,8 +14,25 @@ STATE_OK=0
 STATE_WARNING=1
 STATE_CRITICAL=2
 STATE_UNKNOWN=3
+
+
+PROGNAME=`basename $0`
+
+print_help(){
+        echo "$PROGNAME is a Nagios Plugin to check delay for DR files"
+        echo "See below for available options."
+        echo "Options:"
+        echo "  -w/--warning)"
+        echo "          Defines warning threshold of delay"
+        echo "  -c/--critical)"
+        echo "          Defines critical threshold of delay"
+
+}
+
+
+
 # print usage
-if [[ $# -lt 8 ]]
+if [[ $# -lt 8 && $1 -ne "-h" ]]
 then
         echo ""
         echo "Wrong Syntax: `basename $0` $*"
@@ -28,6 +45,10 @@ fi
 while [[ $# -gt 0 ]]
   do
         case "$1" in
+               -h|--help)
+	       print_help
+	       exit 3
+	;;
                -w|--warning)
                shift
                warning=$1

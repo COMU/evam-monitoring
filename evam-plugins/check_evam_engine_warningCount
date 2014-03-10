@@ -3,7 +3,7 @@
 RUN_DIR_PATH=$PWD
 source /etc/evam.conf
 
-USAGE="`basename $0` [-w|--warning]<qsize> [-c|--critical]<qsize>"
+USAGE="`basename $0` [-h|--help]<help> [-w|--warning]<qsize> [-c|--critical]<qsize>"
 THRESHOLD_USAGE="WARNING threshold must be less than CRITICAL: `basename $0` $*"
 
 critical=""
@@ -12,8 +12,26 @@ STATE_OK=0
 STATE_WARNING=1
 STATE_CRITICAL=2
 STATE_UNKNOWN=3
+
+
+
+PROGNAME=`basename $0`
+
+print_help(){
+        echo "$PROGNAME is a Nagios Plugin to check engine warning log sizes"
+        echo "See below for available options."
+        echo "Options:"
+        echo "  -w/--warning)"
+        echo "          Defines warning threshold of log count"
+        echo "  -c/--critical)"
+        echo "          Defines critical threshold of log count"
+    
+}
+
+
+
 # print usage
-if [[ $# -lt 4 ]]
+if [[ $# -lt 2 && $1 -ne "-h" ]]
 then
         echo ""
         echo "Wrong Syntax: `basename $0` $*"
@@ -26,6 +44,10 @@ fi
 while [[ $# -gt 0 ]]
   do
         case "$1" in
+	       -h|--help)
+		print_help
+		exit 3
+	;;
                -w|--warning)
                shift
                warning=$1
