@@ -10,8 +10,8 @@ Source0:        http://members.comu.edu.tr/nyucel/evam/evam-plugins-1.0.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  nagios
-Requires:       nagios
+BuildRequires:  filesystem
+Requires:       filesystem
 
 %description
 EVAM evam plugins nagios eklentilerinin cron aracılıgıyla otomatik olarak çalıstırılıp sonuclarının raporlanması icin kullanılan bir araçtır
