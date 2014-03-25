@@ -1,1 +1,0 @@
-*/5 * * * * /usr/libexec/nagios/plugins/nsca_manager/nsca_manager/nsca_manager &&
