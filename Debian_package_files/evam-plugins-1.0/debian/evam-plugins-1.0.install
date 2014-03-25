@@ -1,0 +1,5 @@
+evam-plugins-1.0/evam-plugins/* /usr/libexec/nagios/plugins/evam/evam-plugins
+install -d $RPM_BUILD_ROOT/etc/evam/nagios-plugins
+evam-plugins-1.0/evam.conf /etc/evam/nagios-plugins
+evam-plugins-1.0/nrpe.cfg /etc/evam/nagios-plugins
+evam-plugins-1.0/nsca_plugins.cfg /etc/evam/nagios-plugins

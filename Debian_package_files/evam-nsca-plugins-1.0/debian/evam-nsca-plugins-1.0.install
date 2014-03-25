@@ -1,0 +1,4 @@
+evam-nsca-plugins-1.0/nsca_plugins/match_errors/check_evam_engine_errors_match /usr/libexec/nagios/plugins/evam-nsca-plugins/nsca_plugins/match_errors/check_evam_engine_errors_match
+evam-nsca-plugins-1.0/nsca_plugins/sql_script_runner/check_intellica_query /usr/libexec/nagios/plugins/evam-nsca-plugins/nsca_plugins/sql_script_runner/check_intellica_query
+evam-nsca-plugins-1.0/nsca_plugins/sql_script_runner/sqlScriptRunner.jar /usr/libexec/nagios/plugins/evam-nsca-plugins/nsca_plugins/sql_script_runner/sqlScriptRunner.jar
+evam-nsca-plugins-1.0/nsca_plugins/sql_script_runner/conf/log4j.properties /usr/libexec/nagios/plugins/evam-nsca-plugins/nsca_plugins/sql_script_runner/conf/log4j.properties
