@@ -6,7 +6,7 @@ Group:          Applications/System
 
 License:        GPL
 URL:            http://www.evam.com
-Source0:        http://members.comu.edu.tr/nyucel/evam/evam-plugins-1.0.tar.gz
+Source0:        http://members.comu.edu.tr/nyucel/evam/evam-plugins-1.1.tar.gz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
