@@ -37,4 +37,4 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(755,root,root,-)
 /usr/libexec/nagios/plugins/evam-nsca-manager/nsca_manager/nsca_manager
-/etc/cron.d/nsca_manager
+/etc/cron.d/nsca_manager_cron
