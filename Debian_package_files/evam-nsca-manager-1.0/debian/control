@@ -1,15 +1,15 @@
 Source: evam-nsca-manager
 Section: unknown
 Priority: extra
-Maintainer: gulsah <gulsah.1004@gmail.com>
+Maintainer: Gulsah Kose <gulsah.1004@gmail.com>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.2
-Homepage: <insert the upstream URL, if relevant>
+Homepage: http://www.evam.com
 #Vcs-Git: git://git.debian.org/collab-maint/evam-nsca-manager.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/evam-nsca-manager.git;a=summary
 
 Package: evam-nsca-manager
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends: ${shlibs:Depends}, ${misc:Depends}, evam-plugins, evam-nsca-plugins, cronie
+Description:
+ EVAM nsca manager nagios eklentilerinin cron aracılığıyla otomatik olarak çalıştırılıp sonuçlarının raporlanması için kullanılan bir araçtır

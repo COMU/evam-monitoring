@@ -1,2 +1,2 @@
 evam-nsca-manager-1.0/nsca_manager/nsca_manager /usr/libexec/nagios/plugins/evam-nsca-manager/nsca_manager/
-evam-nsca-manager-1.0/cron/nsca_manager /etc/cron.d
+evam-nsca-manager-1.0/nsca_manager/nsca_manager_cron /etc/cron.d

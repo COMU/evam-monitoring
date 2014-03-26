@@ -1,0 +1,15 @@
+evam-plugins-1.1/evam-plugins/check_evam_engine_errorCount /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_evam_engine_logLineCount /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_evam_engine_proc /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_evam_engine_qsize /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_evam_engine_threadStatus /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_evam_engine_warningCount /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_evam_listener_proc /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_intellica_cpu /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_intellica_disk /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_intellica_file_count /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_intellica_file_time /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam-plugins/check_intellica_memory /usr/libexec/nagios/plugins/evam/evam-plugins
+evam-plugins-1.1/evam.conf /etc/evam/nagios-plugins
+evam-plugins-1.1/nrpe.cfg /etc/evam/nagios-plugins
+evam-plugins-1.1/nsca_plugins.cfg /etc/evam/nagios-plugins
